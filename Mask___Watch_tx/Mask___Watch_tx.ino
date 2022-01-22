@@ -20,8 +20,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 PulseOximeter pox;
 uint32_t tsLastReport = 0;
 int value = 0;
-int button = 7;
-int button1 = 8;
+int button = 1;
+int button1 = 2;
 
 void onBeatDetected()
 {
