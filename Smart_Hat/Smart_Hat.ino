@@ -100,9 +100,11 @@ void loop() {
     digitalWrite(buzzer,HIGH);
     delay(5000);
     digitalWrite(buzzer, LOW);
+    Serial.println("Social Distance");
     }
 
     else if (matchFace == false){
       digitalWrite(buzzer,LOW);
+      Serial.println("You are safe");
       }
 }
