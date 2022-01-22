@@ -2,19 +2,14 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 #include <Servo.h>
-
-
-
+int value = 0;
 RF24 radio(7, 8); 
 const byte addresses[][6] = {"00001"};
-Servo myServo;
-boolean buttonState = 0;
 
 void setup() {
-  pinMode(button, INPUT);
-  myServo.attach(5);
+ Serial.begin(115200);
   radio.begin();
-  radio.openWritingPipe(addresses[0]); // 00001
+  radio.openWritingPipe(addresses[0]);
   radio.setPALevel(RF24_PA_MIN);
 }
 
@@ -24,5 +19,14 @@ void loop() {
   if ( radio.available()) {
     while (radio.available()) {
       radio.read(&value, sizeof(value));
-      myServo.write(value);
+      }
+
+      if (value == 1) {
+       Serial.println("Safe");
+        }
+
+        else if (value == 2){
+          Serial.println("UnSafe");
+          }
+        }
 }
