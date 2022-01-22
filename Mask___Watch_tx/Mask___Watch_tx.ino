@@ -1,3 +1,4 @@
+#include <DS3231.h>
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -28,17 +29,24 @@ void onBeatDetected()
 }
  
 
+DS3231 rtc(SDA, SCL);
+
 RF24 radio(7, 8);
 const byte addresses[][6] = {"00001"};
 
 void setup() {
+      Serial.begin(115200);
   pinMode(button, INPUT);
   pinMode(button1, INPUT);
   radio.begin();
   radio.openWritingPipe(addresses[0]); 
   radio.setPALevel(RF24_PA_MIN);
 
-    Serial.begin(115200);
+  rtc.begin();
+  rtc.setDOW(SUNNDAY);     
+  rtc.setTime(11, 0, 0);     
+  rtc.setDate(23, 1, 2022);  
+
     Serial.print("Initializing pulse oximeter..");
     if (!pox.begin()) {
         Serial.println("FAILED");
@@ -61,7 +69,15 @@ void loop() {
         }
 
 if (button == 1) {
-  
+    display.clearDisplay();
+  display.setTextSize(1);           
+  display.setTextColor(SSD1306_WHITE);      
+  display.setCursor(0,0);           
+  display.println(rtc.getDOWStr());  
+  display.setCursor(0,10);           
+  display.println(rtc.getDateStr());
+  display.setCursor(0,20);           
+  display.println(rtc.getTimeStr());      
   }
 
 else if (button1 == 1) {
